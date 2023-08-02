@@ -52,9 +52,9 @@ sophisticated experiments should become possible.
 
 Code and models both released under the [Apache 2](https://www.apache.org/licenses/LICENSE-2.0) license.
 
-* [OpenLLaMA 3b v2 VAE](https://models.rivershavewings.workers.dev/ldlm/sft_vae_test_13.tar), trained on 52.4M tokens from RedPajama.
+* [OpenLLaMA 3b v2 VAE](https://models.rivershavewings.workers.dev/ldlm/sft_vae_test_13.tar), trained on 52.4M tokens from RedPajama. (SHA-256: `1a174dd3e6fbe5f05519ffb4aa5a3036605bb0997b1a2b4c60df44b83e8d6f51`)
 
-* [200M LDLM](https://models.rivershavewings.workers.dev/ldlm/ldlm_test_2b.tar), trained on 1.23B tokens from RedPajama.
+* [200M LDLM](https://models.rivershavewings.workers.dev/ldlm/ldlm_test_2b.tar), trained on 1.23B tokens from RedPajama. (SHA-256: `87493e4d97974a2e5ffdd741e575f34b49576f81ef209070a478fc918cfa62d9`)
 
 ## Training
 
