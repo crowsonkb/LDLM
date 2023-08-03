@@ -371,13 +371,13 @@ def main():
         sigmas = K.sampling.get_sigmas_karras(100, sigma_min, sigma_max, device=device)
         x = torch.randn([bs, args.z_dim], device=device) * sigma_max
         extra_args = {
-            "z_prev": z_prev,
+            "z_prev": z_prev / ae_scale,
             "padding_mask": torch.ones([bs, 1], dtype=torch.long, device=device),
         }
         mean = K.sampling.sample_dpmpp_2m_sde(
             model, x, sigmas, extra_args=extra_args, disable=not is_main
         )
-        return model_vae.vae.sample(mean * ae_scale, tau=tau)
+        return mean * ae_scale
 
     def vae_tokenize(prev_window, n_tokens):
         tokens = tokenizer(args.prompt, return_tensors="pt")
@@ -392,9 +392,9 @@ def main():
     accelerator.wait_for_everyone()
 
     n_tokens = 48
-    with torch.cuda.amp.autocast():
+    with torch.cuda.amp.autocast(dtype=torch.bfloat16):
         input_ids, attention_mask = vae_tokenize(args.prompt, n_tokens)
-        z_prev = model_vae.encode(input_ids, attention_mask)[:, None] / ae_scale
+        z_prev = model_vae.encode(input_ids, attention_mask)[:, None]
         
     out_embeds = []
     for i in range(5):
@@ -404,7 +404,8 @@ def main():
     input_ids, attention_mask = vae_tokenize(args.prompt, n_tokens)
     out_texts = [args.prompt]
     for z in out_embeds:
-        with torch.cuda.amp.autocast():
+        with torch.cuda.amp.autocast(dtype=torch.bfloat16):
+            z = model_vae.vae.sample(z, tau=tau)
             input_ids = model_vae.generate(z.squeeze(0),
                                            input_ids,
                                            attention_mask,
@@ -413,7 +414,7 @@ def main():
             attention_mask = torch.ones([1,48], dtype=torch.long, device=device)
         out_texts += [tokenizer.decode(toks, skip_special_tokens=True) for toks in input_ids]
 
-    print(''.join(out_texts))
+    print(' | '.join(out_texts))
 
 if __name__ == "__main__":
     main()
