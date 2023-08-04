@@ -382,8 +382,8 @@ def main():
     def vae_tokenize(prev_window, n_tokens):
         tokens = tokenizer(args.prompt, return_tensors="pt")
         try:
-            input_ids = tokens["input_ids"][0][n_tokens].unsqueeze(0).to(device)
-            attention_mask = tokens["attention_mask"][0][n_tokens].unsqueeze(0).to(device)
+            input_ids = tokens["input_ids"][0][:n_tokens].unsqueeze(0).to(device)
+            attention_mask = tokens["attention_mask"][0][:n_tokens].unsqueeze(0).to(device)
         except IndexError: # Let prompts under 48 tokens through
             input_ids = tokens["input_ids"].to(device)
             attention_mask = tokens["attention_mask"].to(device)
