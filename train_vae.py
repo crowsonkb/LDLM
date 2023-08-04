@@ -345,6 +345,8 @@ def main():
     accelerator.wait_for_everyone()
     for epoch in trange(args.epochs, disable=not is_main):
         for input_ids, attention_mask in tqdm(dataloader, disable=not is_main):
+            input_ids = input_ids.long()
+
             if is_main and i % 100 == 0:
                 demo(accelerator.unwrap_model(model), input_ids, attention_mask, args.context)
 
