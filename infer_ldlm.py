@@ -368,14 +368,14 @@ def main():
         bs = 1
         
         sigma_min, sigma_max = 0.01, 100
-        sigmas = K.sampling.get_sigmas_karras(100, sigma_min, sigma_max, device=device)
+        sigmas = K.sampling.get_sigmas_karras(25, sigma_min, sigma_max, device=device)
         x = torch.randn([bs, args.z_dim], device=device) * sigma_max
         extra_args = {
             "z_prev": z_prev / ae_scale,
             "padding_mask": torch.ones([bs, 1], dtype=torch.long, device=device),
         }
         mean = K.sampling.sample_dpmpp_2m_sde(
-            model, x, sigmas, extra_args=extra_args, disable=not is_main
+            model, x, sigmas, eta=0.0, extra_args=extra_args, disable=not is_main
         )
         return mean * ae_scale
 
