@@ -56,6 +56,8 @@ Code and models both released under the [Apache 2](https://www.apache.org/licens
 
 * [200M LDLM](https://models.rivershavewings.workers.dev/ldlm/ldlm_test_2b.tar), trained on 1.23B tokens from RedPajama. (SHA-256: `87493e4d97974a2e5ffdd741e575f34b49576f81ef209070a478fc918cfa62d9`)
 
+* [OpenLLaMA 3b v2 VAE, version 2](https://models.rivershavewings.workers.dev/ldlm/vae_48.tar) ("vae_48"), trained on 1B tokens from RedPajama. (SHA-256: `cfafefc9d54ecea678024f1c05b9fce5555b5b8496f8d26379c2c33cba95ecd5`)
+
 ## Training
 
 To train your own AdaVAE run:
